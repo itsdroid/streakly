@@ -14,15 +14,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    title: {
-        type: String,
-        default: "New User"
-    },
-    frequency: {
-        type: String,
-        enum: ["Daily", "Weekly", "Monthly"],
-        default: "Daily"
-    },
 },
     {
         timestamps: true
