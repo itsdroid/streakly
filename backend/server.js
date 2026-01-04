@@ -1,5 +1,15 @@
-const express = require('express');
+
+import express from 'express';
 const app = express();
+import connectDB from './src/config/db.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+app.use(express.json());
+
+// Connect to the database
+connectDB();
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
