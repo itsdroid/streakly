@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import UserModel from '../models/UserModel.js';
 
-const JWT = process.env.JWT_TOKEN || 'jwt_token_not_found';
+const JWTKEY = process.env.JWT_TOKEN || 'jwt_token_not_found';
 
 
 // -------- user registration ---------
-export default async function registerUser(req, res) {
+export async function registerUser(req, res) {
     try {
         const { name, email, password } = req.body;
         const isAlreadyExists = await UserModel.findOne({ email });
