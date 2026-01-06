@@ -43,9 +43,19 @@ export default async function loginUser(req, res) {
         const checkPassword = await bcrypt.compare(password, User.password);
         if (!checkPassword) return res.status(400).json( { message: "Invlid credentials." });
 
-        const token = jwt.sign( { id: User._id, name: User.name, email: User.email });
+        const token = jwt.sign( { id: User._id } ,JWTKEY);
+
+        res.cookie("token", token);
+
+        res.status(200).json( { message: `welcome back ${User.name}` });
     }
     catch(e) {
         res.status(500).json( { message: "Login error: ", e } );
     }
+}
+
+
+export default async function LogoutUser(req, res) {
+    res.clearCookie("token");
+    res.status(200).json( { message: "Logged out successfully." } );
 }
