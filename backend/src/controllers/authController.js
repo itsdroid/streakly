@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt.js';
-import jwt from 'jsonwebtoken.js';
-import dotenv from 'dotenv.js';
-import UserModel from '../models/UserModel';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import UserModel from '../models/UserModel.js';
 
 const JWT = process.env.JWT_TOKEN || 'jwt_token_not_found';
 
@@ -10,7 +10,7 @@ const JWT = process.env.JWT_TOKEN || 'jwt_token_not_found';
 export default async function registerUser(req, res) {
     try {
         const { name, email, password } = req.body;
-        const isAlreadyExists = User.fineOne({ where: { email } });
+        const isAlreadyExists = await UserModel.findOne({ email });
 
         if (isAlreadyExists) return res.status(400).json({ message: " user already exists, Please login instead." });
         
@@ -33,7 +33,7 @@ export default async function registerUser(req, res) {
     }
 }
 
-export default async function loginUser(req, res) {
+export async function loginUser(req, res) {
     try {
         const {email, password} = req.body;
         const User = await UserModel.findOne( { email } );
@@ -55,7 +55,7 @@ export default async function loginUser(req, res) {
 }
 
 
-export default async function LogoutUser(req, res) {
+export async function LogoutUser(req, res) {
     res.clearCookie("token");
     res.status(200).json( { message: "Logged out successfully." } );
 }
