@@ -33,4 +33,19 @@ export default async function registerUser(req, res) {
     }
 }
 
+export default async function loginUser(req, res) {
+    try {
+        const {email, password} = req.body;
+        const User = await UserModel.findOne( { email } );
 
+        if (!User) return res.status(404).json( { message: "User not found, please register." });
+
+        const checkPassword = await bcrypt.compare(password, User.password);
+        if (!checkPassword) return res.status(400).json( { message: "Invlid credentials." });
+
+        const token = jwt.sign( { id: User._id, name: User.name, email: User.email });
+    }
+    catch(e) {
+        res.status(500).json( { message: "Login error: ", e } );
+    }
+}
