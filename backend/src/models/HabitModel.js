@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const habitSchema = new mongoose.Schema({
-    User: {
+    user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',
         required: true

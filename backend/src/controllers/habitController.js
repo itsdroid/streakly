@@ -1,17 +1,17 @@
-import Habit from "../models/HabitModel.js";
+import HabitModel from '../models/HabitModel';
 
-export const createHabit = async (req, res) => {
+export async function createHabit(req, res) {
     try {
-        const { title, userId } = req.body;
+        const { userId, user, title, frequency, records } = req.body;
 
-        const habit = await Habit.create({
+        const Habit = await HabitModel.create({
+            user: userId,
             title,
-            user: userId, // later replace with req.user.id
-            records: [],
+            frequency,
+            records
         });
-
-        res.status(201).json(habit);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(201).json({ message: " habit created " });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
     }
-};
+}
