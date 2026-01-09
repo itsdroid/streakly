@@ -15,7 +15,7 @@ export async function registerUser(req, res) {
         if (isAlreadyExists) return res.status(400).json({ message: " user already exists, Please login instead." });
         
         const hashedPassword = await bcrypt.hash(password,10);
-        const User = UserModel.create ({
+        const User = await UserModel.create ({
             name,
             email,
             password: hashedPassword
