@@ -13,14 +13,15 @@ export async function registerUser(req, res) {
         const isAlreadyExists = await UserModel.findOne({ email });
 
         if (isAlreadyExists) return res.status(400).json({ message: " user already exists, Please login instead." });
-        
-        const hashedPassword = await bcrypt.hash(password,10);
-        const User = await UserModel.create ({
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const User = await UserModel.create({
             name,
             email,
             password: hashedPassword
         });
-        res.status(200).json({ message: "user created successfully ",
+        res.status(200).json({
+            message: "user created successfully ",
             User: {
                 id: User.id,
                 name: User.name,
@@ -28,33 +29,35 @@ export async function registerUser(req, res) {
             }
         });
     }
-    catch(e) {
-        res.status(500).json({ message: "Registration error: " , e});
+    catch (e) {
+        res.status(500).json({ message: "Registration error: ", e });
     }
 }
 
 export async function loginUser(req, res) {
     try {
-        const {email, password} = req.body;
-        const User = await UserModel.findOne( { email } );
+        const { email, password } = req.body;
+        const User = await UserModel.findOne({ email });
 
-        if (!User) return res.status(404).json( { message: "User not found, please register." });
+        if (!User) return res.status(404).json({ message: "User not found, please register." });
 
         const checkPassword = await bcrypt.compare(password, User.password);
-        if (!checkPassword) return res.status(400).json( { message: "Invlid credentials." });
+        if (!checkPassword) return res.status(400).json({ message: "Invlid credentials." });
 
-        const token = jwt.sign( { id: User._id } ,JWTKEY);
+        const token = jwt.sign({ id: User._id }, JWTKEY);
 
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true
+        });
 
-        res.status(200).json( { message: `welcome back ${User.name}` });
+        res.status(200).json({ message: `welcome back ${User.name}` });
     }
-    catch(e) {
-        res.status(500).json( { message: "Login error: ", e } );
+    catch (e) {
+        res.status(500).json({ message: "Login error: ", e });
     }
 }
 
 export async function logoutUser(req, res) {
     res.clearCookie("token");
-    res.status(200).json( { message: "Logged out successfully." } );
+    res.status(200).json({ message: "Logged out successfully." });
 }
