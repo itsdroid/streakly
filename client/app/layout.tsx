@@ -8,8 +8,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#0f1115] text-[#e6e6e6]">
-        <div className="flex min-h-screen">
+      <body className=" text-[#e6e6e6] bg-[#0f1115]">
+        <div className="flex min-h-screen  bg-zinc-900">
           <Navbar/>
           <main className="flex-1 p-5">
             {children}

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
     return (
@@ -14,10 +15,11 @@ export default function Navbar() {
                     />
                 </div>
                 <div>
-                    <ul className="flex flex-col gap-10 justify-center">
-                        <li href='/'> Home </li>
-                        <li> Home </li>
-                        <li> Home </li>
+                    <ul>
+                        <li> <Link href="/"> home </Link> </li>
+                        <li> <Link href="/about"> about </Link> </li>
+                        <li> <Link href="/blog/5"> blog </Link> </li>
+                        <li> <Link href="/analytics" className="underline text-blue-700"> analytics </Link> </li>
                     </ul>
                 </div>
                 <Image
